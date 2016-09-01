@@ -1,0 +1,26 @@
+{
+  "name": "express-stormpath-s3",
+  "version": "1.0.0",
+  "description": "Amazon S3 support for express-stormpath.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdegges/express-stormpath-s3.git"
+  },
+  "keywords": [
+    "s3",
+    "amazon",
+    "stormpath",
+    "express",
+    "express-stormpath"
+  ],
+  "author": "Randall Degges",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/rdegges/express-stormpath-s3/issues"
+  },
+  "homepage": "https://github.com/rdegges/express-stormpath-s3#readme"
+}
