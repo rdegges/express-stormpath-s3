@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/rdegges/express-stormpath-s3/issues"
   },
-  "homepage": "https://github.com/rdegges/express-stormpath-s3#readme"
+  "homepage": "https://github.com/rdegges/express-stormpath-s3#readme",
+  "dependencies": {
+    "s3": "^4.4.0"
+  }
 }
