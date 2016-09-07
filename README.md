@@ -50,6 +50,8 @@ app.use(stormpathS3({
 }));
 
 // Routes...
+
+app.listen(process.env.PORT || 3000);
 ```
 
 
