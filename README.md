@@ -126,3 +126,39 @@ app.post('/delete', stormpath.loginRequired, (req, res, next) => {
   });
 });
 ```
+
+
+## How This Works
+
+The way this library works is it patches several file management methods onto
+the `req.user` object that express-stormpath provides.
+
+When files are uploaded for a particular user, they are stored in the configured
+S3 bucket under a subdirectory which is named after the user's Stormpath ID.
+
+For example, if you have a Stormpath user whose ID is 'xDjxvIEs6OEE7nCBFuVXG',
+your S3 bucket would contain a subdirectory named 'xDjxvIEs6OEE7nCBFuVXG' that
+holds all uploaded files for that particular user.
+
+When files are stored in S3 for a user, a reference to that file is also stored
+in the Stormpath user's CustomData JSON dictionary.  This serves a purpose by
+allowing us to later delete, re-upload, or list files that this user has created
+in an efficient manner.  This also makes it easier to interact with user files
+from other processes outside of your Express application.
+
+For instance, let's say you uploaded a file called `some-file.txt` into a user's
+account, that user's CustomData JSON would now look like this:
+
+```json
+{
+  "s3": {
+    "some-file.txt": {
+      "created": "2016-09-02T21:25:55.002Z",
+      "href": "https://s3.amazonaws.com/bucket-name/xDjxvIEs6OEE7nCBFuVXG/some-file.txt"
+    }
+  }
+}
+```
+
+This allows you to easily track files for each user in a simple way, and
+provides some basic metadata about files that you can use in your application.
