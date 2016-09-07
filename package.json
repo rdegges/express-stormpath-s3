@@ -27,6 +27,7 @@
     "s3": "^4.4.0"
   },
   "devDependencies": {
+    "express": "^4.14.0",
     "mocha": "^3.0.2"
   }
 }
