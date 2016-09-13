@@ -97,6 +97,11 @@ The available ACL types are:
 - bucket-owner-read
 - bucket-owner-full-control
 
+**NOTE**: Due to the underlying S3 library we are using to make this
+functionality possible, we only currently support storing user files in the US
+Standard AWS region.  This will change in the future when the library we're
+using supports other regions.
+
 
 ### Downloading User Files
 
