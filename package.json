@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/rdegges/express-stormpath-s3#readme",
   "dependencies": {
+    "async": "^2.0.1",
     "s3": "^4.4.0"
   },
   "devDependencies": {
