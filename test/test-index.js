@@ -5,6 +5,8 @@ const assert = require('assert');
 const AWS = require('aws-sdk');
 const express = require('express');
 const s3 = require('s3');
+const request = require('supertest');
+const sinon = require('sinon');
 const uuid = require('uuid4');
 
 const stormpathS3 = require('../index');
@@ -14,6 +16,8 @@ describe('express-stormpath-s3', () => {
   let s3Client;
 
   before((done) => {
+    this.sinon = sinon.sandbox.create();
+
     s3Client = new AWS.S3({
       params: {
         sslEnabled: true,
@@ -31,6 +35,8 @@ describe('express-stormpath-s3', () => {
   });
 
   after((done) => {
+    this.sinon.restore();
+
     s3Client.deleteBucket({ Bucket: bucket }, (err, data) => {
       if (err) {
         return done(err);
@@ -52,11 +58,19 @@ describe('express-stormpath-s3', () => {
     }, Error);
   });
 
-  //it('should log a warning to the console if express-stormpath isn\'t initialized', (done) => {
-  //  let app = express();
+  it('should log a warning to the console if express-stormpath isn\'t initialized', (done) => {
+    let app = express();
 
-  //  app.use(stormpathS3({
+    app.use(stormpathS3({ awsBucket: bucket }));
 
-  //  }));
-  //});
+    app.get('/', (req, res) => {
+      res.send('hi');
+    });
+
+    this.sinon.stub(console, 'warn');
+    request(app).get('/').expect(200, () => {
+      assert(console.warn.calledOnce);
+      done();
+    });
+  });
 });
