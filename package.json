@@ -33,6 +33,7 @@
     "express-stormpath": "^3.1.5",
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
+    "supertest": "^2.0.0",
     "uuid4": "^1.0.0"
   }
 }
