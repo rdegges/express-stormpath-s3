@@ -1,24 +1,28 @@
 language: node_js
 sudo: false
 node_js:
-- "6.1"
-- "6.0"
-- "5.11"
-- "5.10"
-- "5.9"
-- "5.8"
-- "5.7"
-- "5.6"
-- "5.5"
-- "5.4"
-- "5.3"
-- "5.2"
-- "5.1"
-- "5.0"
-- "4.4"
-- "4.3"
-- "4.2"
-- "4.1"
-- "4.0"
+- '6.1'
+- '6.0'
+- '5.11'
+- '5.10'
+- '5.9'
+- '5.8'
+- '5.7'
+- '5.6'
+- '5.5'
+- '5.4'
+- '5.3'
+- '5.2'
+- '5.1'
+- '5.0'
+- '4.4'
+- '4.3'
+- '4.2'
+- '4.1'
+- '4.0'
 install: npm install
 script: npm test
+env:
+  global:
+  - secure: XferZSSqOCXd6KGT3xnFKFbXUNjxlECfRNuL4w/qGQrMlo6E0Bud4TMrH3U5l0xD/+TcNU77IXUzw3kVAvCyTKffykimeYhC6KSOyHNIng3SUmDbgzebRSX0r7aWMnD0fwyJ2jD5PMBn4cT3rZuvxncogMaehJDeJ3SjIqXxh2mkWIAUr0/DDPgZ/+LTKtXzcJ89K/su9WK7aKgaIye+zDthNCvuD/h/fO2k65Q8cdB8jSduAkGxV8tIayDZbRl82Wx35mfvQeLcRh71GmAVvTXiE3g54inQhkMek1UrPqj2EYDe0yReu635fmgKoRhf5/Ap7HSp6sW2XYhY3b9pARv9V5na4jnaDy/8qFUY0ikii7syNNeHtCm6xURbp0nsIwelEA0DUjIESlUjTF2/SFBqtrctENvk8dJNQtnym3d4qod3sUayWPSRH93B+hd+vrdCWHGxLWCjYu1VeZQT0RCN/K4kJznU++JSj0yMFGAOPxqNHd57O2ArboLThjp3eltZEt6lhNDVBnluuMQS+avhdQdKx63eNmlE1RuWzm5TJyZFngAPD4Fpx5CGkwvn8Xvq65SkksPe7US5G25OPQnUNjPuVunNeFvc+plxSu+oh/EH03AEQeWGMwLIdm6SXXALELqauJahnnQkHRW/wDICNycVy4jvejwmZQuIC+U=
+  - secure: rgCHPUfogYG6R7CDr+U89osUihZd/ucc2G9PXFUEelCYn47gb406rJE4NFjLohztBilh/L0S98qXpZtGwTCvJ3cR7UbKPrDgOx4TKlzBzfF+MHpnLTLdoU2GjGZL0NkHR8C+XfiZ9wVQwfxLr//3Zv9+zpVNiGm6vdo/EEIrkTBC0zXk9du1TpY+NXP+2/zan9HqeWFPumLhkFK94G6b2qd2Y7DTLuHLmROUbKwnyMQn8SpFbgZoA8DJpUE1UDCCIYRVxBMbMLwVsfTK9WTlKxsq+Ao0EZ2uP2svM45rURUgiNnVqTJE6NKnMnS7fXzCHlh7++HrSmvwTr8VnJIFIrL7edrmviyUfhyptVPEyrjFkQ3ezzqcmLHRfdupW7YhjwW4yqmpS2l2VN6pGQYccRx2sywEbl9N97dqn2or/E3RCfAbaUqgn7P8vPs6JiibVE64495wopsqqGZb+THvQ/2lwrpKuZYYa/oGSHoFCW0V6ARcFX8uqh+zKvYvPYpOnYWIVB4BkdfCIUUVuZDbXWAV8wBvlrOswDI6CbUKoA888Kk0xAxDx8rztCbgXRbuUcFb5/6TRj2iczP+9RMnhaAlNXWN7raAwkybmu2SjR2W9IUgtRKSOKCkP9lBaxk0qyJ8R88i2Ya23W+18qkRKRi/vIIu/ZL0ME6QliIJ5Gc=
