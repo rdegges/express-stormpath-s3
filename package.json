@@ -4,7 +4,7 @@
   "description": "Amazon S3 support for express-stormpath.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha --no-timeouts"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "express-stormpath": "^3.1.5",
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
+    "stormpath": "^0.18.5",
     "supertest": "^2.0.0",
     "uuid4": "^1.0.0"
   }
