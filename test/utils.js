@@ -121,9 +121,32 @@ function destroyStormpathApplication(application, callback) {
   });
 }
 
+/**
+ * Create a Stormpath Account in the given Application. Used for testing.
+ *
+ * @private
+ */
+function createStormpathAccount(application, callback) {
+  let name = generateRandomName();
+
+  application.createAccount({
+    givenName: name,
+    surname: name,
+    email: name + '@test.com',
+    password: '0HIthere!0'
+  }, (err, account) => {
+    if (err) {
+      return callback(err);
+    }
+
+    callback(null, account);
+  });
+}
+
 module.exports = {
   createS3Bucket: createS3Bucket,
   createS3Client: createS3Client,
+  createStormpathAccount: createStormpathAccount,
   createStormpathApplication: createStormpathApplication,
   deleteS3Bucket: deleteS3Bucket,
   destroyStormpathApplication: destroyStormpathApplication

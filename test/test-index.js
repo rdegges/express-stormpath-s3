@@ -96,5 +96,55 @@ describe('express-stormpath-s3', () => {
         done();
       });
     });
+
+    it('should run if a user object is present', done => {
+      let agent;
+      let app = express();
+
+      app.use(stormpath.init(app, {
+        application: {
+          href: this.spApplication.href
+        }
+      }));
+      app.use(stormpath.getUser);
+      app.use(stormpathS3({ awsBucket: 'bucket' }));
+
+      app.get('/', stormpath.loginRequired, (req, res) => {
+        assert(req.app.get('s3Bucket'));
+        assert(req.app.get('s3Client'));
+        assert(typeof req.user.uploadFile === 'function');
+        assert(typeof req.user.downloadFile === 'function');
+        assert(typeof req.user.deleteFile === 'function');
+        assert(typeof req.user.syncFiles === 'function');
+
+        res.send();
+      });
+
+      utils.createStormpathAccount(this.spApplication, (err, acc) => {
+        if (err) {
+          return done(err);
+        }
+
+        agent = request.agent(app);
+
+        agent.post('/login')
+          .type('form')
+          .send({ login: acc.username })
+          .send({ password: '0HIthere!0' })
+          .expect(302, (err, res) => {
+            if (err) {
+              return done(err);
+            }
+
+            agent.get('/').expect(200, (err, res) => {
+              if (err) {
+                return done(err);
+              }
+
+              done();
+            });
+          });
+      });
+    });
   });
 });
