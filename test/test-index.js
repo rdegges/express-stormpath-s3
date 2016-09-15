@@ -3,74 +3,98 @@
 const assert = require('assert');
 
 const AWS = require('aws-sdk');
+const async = require('async');
 const express = require('express');
 const s3 = require('s3');
 const request = require('supertest');
 const sinon = require('sinon');
+const sp = require('stormpath');
+const stormpath = require('express-stormpath');
 const uuid = require('uuid4');
 
 const stormpathS3 = require('../index');
+const utils = require('./utils');
 
 describe('express-stormpath-s3', () => {
-  let bucket = uuid();
-  let s3Client;
-
-  before((done) => {
-    this.sinon = sinon.sandbox.create();
-
-    s3Client = new AWS.S3({
-      params: {
-        sslEnabled: true,
-        computeChecksums: true
-      }
-    });
-
-    s3Client.createBucket({ Bucket: bucket }, (err, data) => {
-      if (err) {
-        return done(err);
-      }
-
-      return done();
+  describe('exports', () => {
+    it('should expose a middleware function', () => {
+      assert(typeof stormpathS3 === 'function');
     });
   });
 
-  after((done) => {
-    this.sinon.restore();
+  describe('constructor', () => {
+    it('should throw an error if the required options aren\'t specified', () => {
+      let app = express();
 
-    s3Client.deleteBucket({ Bucket: bucket }, (err, data) => {
-      if (err) {
-        return done(err);
-      }
-
-      return done();
+      assert.throws(() => {
+        app.use(stormpathS3());
+      }, Error);
     });
   });
 
-  it('should expose a middleware function', () => {
-    assert(typeof stormpathS3 === 'function');
-  });
+  describe('initialization', () => {
+    beforeEach(done => {
+      this.spClient = new sp.Client();
+      this.sinon = sinon.sandbox.create();
 
-  it('should throw an error if the required options aren\'t specified', () => {
-    let app = express();
+      utils.createStormpathApplication(this.spClient, (err, app) => {
+        if (err) {
+          return done(err);
+        }
 
-    assert.throws(() => {
-      app.use(stormpathS3({}));
-    }, Error);
-  });
-
-  it('should log a warning to the console if express-stormpath isn\'t initialized', (done) => {
-    let app = express();
-
-    app.use(stormpathS3({ awsBucket: bucket }));
-
-    app.get('/', (req, res) => {
-      res.send('hi');
+        this.spApplication = app;
+        done();
+      });
     });
 
-    this.sinon.stub(console, 'warn');
-    request(app).get('/').expect(200, () => {
-      assert(console.warn.calledOnce);
-      done();
+    afterEach(done => {
+      this.sinon.restore();
+
+      utils.destroyStormpathApplication(this.spApplication, err => {
+        if (err) {
+          return done(err);
+        }
+
+        done();
+      });
+    });
+
+    it('should log a warning to the console if express-stormpath isn\'t initialized', done => {
+      let app = express();
+
+      app.use(stormpathS3({ awsBucket: 'bucket' }));
+
+      app.get('/', (req, res) => {
+        res.send('hi');
+      });
+
+      this.sinon.stub(console, 'warn');
+      request(app).get('/').expect(200, () => {
+        assert(console.warn.calledOnce);
+        done();
+      });
+    });
+
+    it('should not run if no user object is present', done => {
+      let app = express();
+
+      app.use(stormpath.init(app, {
+        application: {
+          href: this.spApplication.href
+        }
+      }));
+      app.use(stormpathS3({ awsBucket: 'bucket' }));
+
+      app.get('/', (req, res) => {
+        assert(!req.app.get('s3Bucket'));
+        assert(!req.app.get('s3Client'));
+
+        res.send();
+      });
+
+      request(app).get('/').expect(200, () => {
+        done();
+      });
     });
   });
 });
