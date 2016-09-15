@@ -1,27 +1,11 @@
 language: node_js
 sudo: false
 node_js:
-- '6.1'
-- '6.0'
-- '5.11'
-- '5.10'
-- '5.9'
-- '5.8'
-- '5.7'
-- '5.6'
-- '5.5'
-- '5.4'
-- '5.3'
-- '5.2'
-- '5.1'
-- '5.0'
-- '4.4'
-- '4.3'
-- '4.2'
-- '4.1'
-- '4.0'
-install: npm install
-script: npm test
+- '6'
+- '5'
+- '4'
+install: travis_retry npm install
+script: travis_retry npm test
 env:
   global:
   - secure: XferZSSqOCXd6KGT3xnFKFbXUNjxlECfRNuL4w/qGQrMlo6E0Bud4TMrH3U5l0xD/+TcNU77IXUzw3kVAvCyTKffykimeYhC6KSOyHNIng3SUmDbgzebRSX0r7aWMnD0fwyJ2jD5PMBn4cT3rZuvxncogMaehJDeJ3SjIqXxh2mkWIAUr0/DDPgZ/+LTKtXzcJ89K/su9WK7aKgaIye+zDthNCvuD/h/fO2k65Q8cdB8jSduAkGxV8tIayDZbRl82Wx35mfvQeLcRh71GmAVvTXiE3g54inQhkMek1UrPqj2EYDe0yReu635fmgKoRhf5/Ap7HSp6sW2XYhY3b9pARv9V5na4jnaDy/8qFUY0ikii7syNNeHtCm6xURbp0nsIwelEA0DUjIESlUjTF2/SFBqtrctENvk8dJNQtnym3d4qod3sUayWPSRH93B+hd+vrdCWHGxLWCjYu1VeZQT0RCN/K4kJznU++JSj0yMFGAOPxqNHd57O2ArboLThjp3eltZEt6lhNDVBnluuMQS+avhdQdKx63eNmlE1RuWzm5TJyZFngAPD4Fpx5CGkwvn8Xvq65SkksPe7US5G25OPQnUNjPuVunNeFvc+plxSu+oh/EH03AEQeWGMwLIdm6SXXALELqauJahnnQkHRW/wDICNycVy4jvejwmZQuIC+U=
