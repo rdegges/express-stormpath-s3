@@ -1,6 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
+const async = require('async');
 const uuid = require('uuid4');
 
 /**
@@ -50,10 +51,50 @@ function createS3Bucket(callback) {
  *
  * @private
  */
-function deleteS3Bucket(name, callback) {
+function destroyS3Bucket(name, callback) {
   let s3Client = createS3Client();
 
-  s3Client.deleteBucket({ Bucket: name }, err => {
+  async.series([
+    function(cb) {
+      s3Client.listObjects({
+        Bucket: name,
+      }, (err, data) => {
+        if (err) {
+          return cb(err);
+        }
+
+        async.each(data.Contents, (obj, c) => {
+          let key = obj.Key;
+
+          s3Client.deleteObject({
+            Bucket: name,
+            Key: key
+          }, err => {
+            if (err) {
+              return c(err);
+            }
+
+            c();
+          });
+        }, err => {
+          if (err) {
+            return cb(err);
+          }
+
+          cb();
+        });
+      });
+    },
+    function(cb) {
+      s3Client.deleteBucket({ Bucket: name }, err => {
+        if (err) {
+          return cb(err);
+        }
+
+        cb();
+      });
+    }
+  ], err => {
     if (err) {
       return callback(err);
     }
@@ -148,6 +189,6 @@ module.exports = {
   createS3Client: createS3Client,
   createStormpathAccount: createStormpathAccount,
   createStormpathApplication: createStormpathApplication,
-  deleteS3Bucket: deleteS3Bucket,
+  destroyS3Bucket: destroyS3Bucket,
   destroyStormpathApplication: destroyStormpathApplication
 };
