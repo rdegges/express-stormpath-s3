@@ -133,6 +133,28 @@ app.post('/delete', stormpath.loginRequired, (req, res, next) => {
 ```
 
 
+### Keeping Files in Sync
+
+If you have multiple processes that are storing files on behalf of users, and
+want to ensure this file metadata is copied over in your Stormpath user accounts
+appropriately, you can use the `req.user.syncFiles()` method to automate this
+process.
+
+This method will inspect your S3 bucket for the current user, and copy over all
+file metadata ensuring it is fresh.
+
+Here's an example of how to use it:
+
+```javascript
+app.post('/sync', stormpath.loginRequired, (req, res, next) => {
+  req.user.syncFiles(err => {
+    if (err) return next(err);
+    res.send('files synced!');
+  });
+});
+```
+
+
 ## How This Works
 
 The way this library works is it patches several file management methods onto
