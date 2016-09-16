@@ -1,6 +1,6 @@
 {
   "name": "express-stormpath-s3",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Amazon S3 support for express-stormpath.",
   "main": "index.js",
   "scripts": {
