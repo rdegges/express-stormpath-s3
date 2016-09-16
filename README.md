@@ -189,3 +189,12 @@ account, that user's CustomData JSON would now look like this:
 
 This allows you to easily track files for each user in a simple way, and
 provides some basic metadata about files that you can use in your application.
+
+
+## Changelog
+
+### Version 0.0.1
+
+**Released September 16, 2016.**
+
+- First ever release!
