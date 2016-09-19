@@ -4,7 +4,8 @@
   "description": "Amazon S3 support for express-stormpath.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/mocha --report lcovonly -- --reporter spec --no-timeouts"
+    "test": "./node_modules/mocha/bin/mocha --reporter spec --no-timeouts",
+    "test_travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/mocha --report lcovonly -- --reporter spec --no-timeouts && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
