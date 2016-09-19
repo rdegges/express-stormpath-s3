@@ -5,7 +5,6 @@
 [![NPM Version](https://img.shields.io/npm/v/express-stormpath-s3.svg?style=flat)](https://npmjs.org/package/express-stormpath-s3)
 [![NPM Downloads](http://img.shields.io/npm/dm/express-stormpath-s3.svg?style=flat)](https://npmjs.org/package/express-stormpath-s3)
 [![Build Status](https://img.shields.io/travis/rdegges/express-stormpath-s3.svg?style=flat)](https://travis-ci.org/rdegges/express-stormpath-s3)
-[![Coverage Status](https://coveralls.io/repos/rdegges/express-stormpath-s3/badge.svg?branch=master)](https://coveralls.io/r/rdegges/express-stormpath-s3?branch=master)
 
 
 ## Installation
