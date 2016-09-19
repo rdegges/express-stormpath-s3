@@ -111,7 +111,7 @@ function destroyS3Bucket(name, callback) {
 function createStormpathApplication(client, callback) {
   let name = generateRandomName();
 
-  client.createApplication({ name: name }, { createDirectory: true }, (err, app) => {
+  client.createApplication({ name }, { createDirectory: true }, (err, app) => {
     if (err) {
       return callback(err);
     }
@@ -185,10 +185,10 @@ function createStormpathAccount(application, callback) {
 }
 
 module.exports = {
-  createS3Bucket: createS3Bucket,
-  createS3Client: createS3Client,
-  createStormpathAccount: createStormpathAccount,
-  createStormpathApplication: createStormpathApplication,
-  destroyS3Bucket: destroyS3Bucket,
-  destroyStormpathApplication: destroyStormpathApplication
+  createS3Bucket,
+  createS3Client,
+  createStormpathAccount,
+  createStormpathApplication,
+  destroyS3Bucket,
+  destroyStormpathApplication
 };

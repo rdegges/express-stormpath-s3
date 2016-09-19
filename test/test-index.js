@@ -53,7 +53,7 @@ describe("express-stormpath-s3", () => {
     afterEach((done) => {
       this.sinon.restore();
 
-      utils.destroyStormpathApplication(this.spApplication, err => {
+      utils.destroyStormpathApplication(this.spApplication, (err) => {
         if (err) {
           return done(err);
         }
@@ -179,7 +179,7 @@ describe("express-stormpath-s3", () => {
             cb();
           });
         }
-      ], err => {
+      ], (err) => {
         if (err) {
           return done(err);
         }
@@ -193,7 +193,7 @@ describe("express-stormpath-s3", () => {
 
       async.parallel([
         function(cb) {
-          utils.destroyStormpathApplication(spApplication, err => {
+          utils.destroyStormpathApplication(spApplication, (err) => {
             if (err) {
               return cb(err);
             }
@@ -202,7 +202,7 @@ describe("express-stormpath-s3", () => {
           });
         },
         function(cb) {
-          utils.destroyS3Bucket(bucket, err => {
+          utils.destroyS3Bucket(bucket, (err) => {
             if (err) {
               return cb(err);
             }
@@ -210,7 +210,7 @@ describe("express-stormpath-s3", () => {
             cb();
           });
         }
-      ], err => {
+      ], (err) => {
         if (err) {
           return done(err);
         }
@@ -233,7 +233,7 @@ describe("express-stormpath-s3", () => {
         app.use(stormpathS3({ awsBucket: bucket }));
 
         app.get("/", stormpath.loginRequired, (req, res) => {
-          req.user.uploadFile("file", err => {
+          req.user.uploadFile("file", (err) => {
             assert(err);
             res.send();
           });
@@ -280,7 +280,7 @@ describe("express-stormpath-s3", () => {
         app.use(stormpathS3({ awsBucket: bucket }));
 
         app.get("/", stormpath.loginRequired, (req, res) => {
-          req.user.uploadFile(tmpFile.name, err => {
+          req.user.uploadFile(tmpFile.name, (err) => {
             assert(!err);
             res.send();
           });
