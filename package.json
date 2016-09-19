@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.6.2",
+    "coveralls": "^2.11.14",
     "express": "^4.14.0",
     "express-stormpath": "^3.1.5",
     "istanbul": "^0.4.5",
