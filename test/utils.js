@@ -37,7 +37,7 @@ function createS3Bucket(callback) {
   let name = generateRandomName();
   let s3Client = createS3Client();
 
-  s3Client.createBucket({ Bucket: name }, err => {
+  s3Client.createBucket({ Bucket: name }, (err) => {
     if (err) {
       return callback(err);
     }
@@ -69,14 +69,14 @@ function destroyS3Bucket(name, callback) {
           s3Client.deleteObject({
             Bucket: name,
             Key: key
-          }, err => {
+          }, (err) => {
             if (err) {
               return c(err);
             }
 
             c();
           });
-        }, err => {
+        }, (err) => {
           if (err) {
             return cb(err);
           }
@@ -86,7 +86,7 @@ function destroyS3Bucket(name, callback) {
       });
     },
     function(cb) {
-      s3Client.deleteBucket({ Bucket: name }, err => {
+      s3Client.deleteBucket({ Bucket: name }, (err) => {
         if (err) {
           return cb(err);
         }
@@ -94,7 +94,7 @@ function destroyS3Bucket(name, callback) {
         cb();
       });
     }
-  ], err => {
+  ], (err) => {
     if (err) {
       return callback(err);
     }
@@ -138,7 +138,7 @@ function destroyStormpathApplication(application, callback) {
           return cb(err);
         }
 
-        store.delete(err => {
+        store.delete((err) => {
           if (err) {
             return cb(err);
           }
@@ -146,12 +146,12 @@ function destroyStormpathApplication(application, callback) {
           cb();
         });
       });
-    }, err => {
+    }, (err) => {
       if (err) {
         return callback(err);
       }
 
-      application.delete(err => {
+      application.delete((err) => {
         if (err) {
           return callback(err);
         }

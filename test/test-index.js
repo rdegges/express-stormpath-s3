@@ -36,7 +36,7 @@ describe("express-stormpath-s3", () => {
   });
 
   describe("initialization", () => {
-    beforeEach(done => {
+    beforeEach((done) => {
       this.spClient = new sp.Client();
       this.sinon = sinon.sandbox.create();
 
@@ -50,7 +50,7 @@ describe("express-stormpath-s3", () => {
       });
     });
 
-    afterEach(done => {
+    afterEach((done) => {
       this.sinon.restore();
 
       utils.destroyStormpathApplication(this.spApplication, err => {
@@ -62,7 +62,7 @@ describe("express-stormpath-s3", () => {
       });
     });
 
-    it("should log a warning to the console if express-stormpath isn\"t initialized", done => {
+    it("should log a warning to the console if express-stormpath isn\"t initialized", (done) => {
       let app = express();
 
       app.use(stormpathS3({ awsBucket: "bucket" }));
@@ -78,7 +78,7 @@ describe("express-stormpath-s3", () => {
       });
     });
 
-    it("should not run if no user object is present", done => {
+    it("should not run if no user object is present", (done) => {
       let app = express();
 
       app.use(stormpath.init(app, {
@@ -100,7 +100,7 @@ describe("express-stormpath-s3", () => {
       });
     });
 
-    it("should run if a user object is present", done => {
+    it("should run if a user object is present", (done) => {
       let agent;
       let app = express();
 
@@ -154,7 +154,7 @@ describe("express-stormpath-s3", () => {
   describe("user methods", () => {
     let bucket, spApplication, spClient;
 
-    beforeEach(done => {
+    beforeEach((done) => {
       spClient = new sp.Client();
       this.sinon = sinon.sandbox.create();
 
@@ -188,7 +188,7 @@ describe("express-stormpath-s3", () => {
       });
     });
 
-    afterEach(done => {
+    afterEach((done) => {
       this.sinon.restore();
 
       async.parallel([
@@ -220,7 +220,7 @@ describe("express-stormpath-s3", () => {
     });
 
     describe("uploadFile", () => {
-      it("should return an error if the specified file does not exist", done => {
+      it("should return an error if the specified file does not exist", (done) => {
         let agent;
         let app = express();
 
@@ -266,7 +266,7 @@ describe("express-stormpath-s3", () => {
         });
       });
 
-      it("should successfully upload files", done => {
+      it("should successfully upload files", (done) => {
         let agent;
         let app = express();
         let tmpFile = tmp.fileSync();
