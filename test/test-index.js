@@ -1,32 +1,32 @@
-'use strict';
+"use strict";
 
-const assert = require('assert');
+const assert = require("assert");
 
-const AWS = require('aws-sdk');
-const async = require('async');
-const express = require('express');
-const s3 = require('s3');
-const request = require('supertest');
-const sinon = require('sinon');
-const sp = require('stormpath');
-const stormpath = require('express-stormpath');
-const tmp = require('tmp');
-const uuid = require('uuid4');
+const AWS = require("aws-sdk");
+const async = require("async");
+const express = require("express");
+const s3 = require("s3");
+const request = require("supertest");
+const sinon = require("sinon");
+const sp = require("stormpath");
+const stormpath = require("express-stormpath");
+const tmp = require("tmp");
+const uuid = require("uuid4");
 
-const stormpathS3 = require('../index');
-const utils = require('./utils');
+const stormpathS3 = require("../index");
+const utils = require("./utils");
 
 tmp.setGracefulCleanup();
 
-describe('express-stormpath-s3', () => {
-  describe('exports', () => {
-    it('should expose a middleware function', () => {
-      assert(typeof stormpathS3 === 'function');
+describe("express-stormpath-s3", () => {
+  describe("exports", () => {
+    it("should expose a middleware function", () => {
+      assert(typeof stormpathS3 === "function");
     });
   });
 
-  describe('constructor', () => {
-    it('should throw an error if the required options aren\'t specified', () => {
+  describe("constructor", () => {
+    it("should throw an error if the required options aren\"t specified", () => {
       let app = express();
 
       assert.throws(() => {
@@ -35,7 +35,7 @@ describe('express-stormpath-s3', () => {
     });
   });
 
-  describe('initialization', () => {
+  describe("initialization", () => {
     beforeEach(done => {
       this.spClient = new sp.Client();
       this.sinon = sinon.sandbox.create();
@@ -62,23 +62,23 @@ describe('express-stormpath-s3', () => {
       });
     });
 
-    it('should log a warning to the console if express-stormpath isn\'t initialized', done => {
+    it("should log a warning to the console if express-stormpath isn\"t initialized", done => {
       let app = express();
 
-      app.use(stormpathS3({ awsBucket: 'bucket' }));
+      app.use(stormpathS3({ awsBucket: "bucket" }));
 
-      app.get('/', (req, res) => {
-        res.send('hi');
+      app.get("/", (req, res) => {
+        res.send("hi");
       });
 
-      this.sinon.stub(console, 'warn');
-      request(app).get('/').expect(200, () => {
+      this.sinon.stub(console, "warn");
+      request(app).get("/").expect(200, () => {
         assert(console.warn.calledOnce);
         done();
       });
     });
 
-    it('should not run if no user object is present', done => {
+    it("should not run if no user object is present", done => {
       let app = express();
 
       app.use(stormpath.init(app, {
@@ -86,21 +86,21 @@ describe('express-stormpath-s3', () => {
           href: this.spApplication.href
         }
       }));
-      app.use(stormpathS3({ awsBucket: 'bucket' }));
+      app.use(stormpathS3({ awsBucket: "bucket" }));
 
-      app.get('/', (req, res) => {
-        assert(!req.app.get('s3Bucket'));
-        assert(!req.app.get('s3Client'));
+      app.get("/", (req, res) => {
+        assert(!req.app.get("s3Bucket"));
+        assert(!req.app.get("s3Client"));
 
         res.send();
       });
 
-      request(app).get('/').expect(200, () => {
+      request(app).get("/").expect(200, () => {
         done();
       });
     });
 
-    it('should run if a user object is present', done => {
+    it("should run if a user object is present", done => {
       let agent;
       let app = express();
 
@@ -110,15 +110,15 @@ describe('express-stormpath-s3', () => {
         }
       }));
       app.use(stormpath.getUser);
-      app.use(stormpathS3({ awsBucket: 'bucket' }));
+      app.use(stormpathS3({ awsBucket: "bucket" }));
 
-      app.get('/', stormpath.loginRequired, (req, res) => {
-        assert(req.app.get('s3Bucket'));
-        assert(req.app.get('s3Client'));
-        assert(typeof req.user.uploadFile === 'function');
-        assert(typeof req.user.downloadFile === 'function');
-        assert(typeof req.user.deleteFile === 'function');
-        assert(typeof req.user.syncFiles === 'function');
+      app.get("/", stormpath.loginRequired, (req, res) => {
+        assert(req.app.get("s3Bucket"));
+        assert(req.app.get("s3Client"));
+        assert(typeof req.user.uploadFile === "function");
+        assert(typeof req.user.downloadFile === "function");
+        assert(typeof req.user.deleteFile === "function");
+        assert(typeof req.user.syncFiles === "function");
 
         res.send();
       });
@@ -130,16 +130,16 @@ describe('express-stormpath-s3', () => {
 
         agent = request.agent(app);
 
-        agent.post('/login')
-          .type('form')
+        agent.post("/login")
+          .type("form")
           .send({ login: acc.username })
-          .send({ password: '0HIthere!0' })
+          .send({ password: "0HIthere!0" })
           .expect(302, (err, res) => {
             if (err) {
               return done(err);
             }
 
-            agent.get('/').expect(200, (err, res) => {
+            agent.get("/").expect(200, (err, res) => {
               if (err) {
                 return done(err);
               }
@@ -151,7 +151,7 @@ describe('express-stormpath-s3', () => {
     });
   });
 
-  describe('user methods', () => {
+  describe("user methods", () => {
     let bucket, spApplication, spClient;
 
     beforeEach(done => {
@@ -219,8 +219,8 @@ describe('express-stormpath-s3', () => {
       });
     });
 
-    describe('uploadFile', () => {
-      it('should return an error if the specified file does not exist', done => {
+    describe("uploadFile", () => {
+      it("should return an error if the specified file does not exist", done => {
         let agent;
         let app = express();
 
@@ -232,8 +232,8 @@ describe('express-stormpath-s3', () => {
         app.use(stormpath.getUser);
         app.use(stormpathS3({ awsBucket: bucket }));
 
-        app.get('/', stormpath.loginRequired, (req, res) => {
-          req.user.uploadFile('file', err => {
+        app.get("/", stormpath.loginRequired, (req, res) => {
+          req.user.uploadFile("file", err => {
             assert(err);
             res.send();
           });
@@ -246,16 +246,16 @@ describe('express-stormpath-s3', () => {
 
           agent = request.agent(app);
 
-          agent.post('/login')
-            .type('form')
+          agent.post("/login")
+            .type("form")
             .send({ login: acc.username })
-            .send({ password: '0HIthere!0' })
+            .send({ password: "0HIthere!0" })
             .expect(302, (err, res) => {
               if (err) {
                 return done(err);
               }
 
-              agent.get('/').expect(200, (err, res) => {
+              agent.get("/").expect(200, (err, res) => {
                 if (err) {
                   return done(err);
                 }
@@ -266,7 +266,7 @@ describe('express-stormpath-s3', () => {
         });
       });
 
-      it('should successfully upload files', done => {
+      it("should successfully upload files", done => {
         let agent;
         let app = express();
         let tmpFile = tmp.fileSync();
@@ -279,7 +279,7 @@ describe('express-stormpath-s3', () => {
         app.use(stormpath.getUser);
         app.use(stormpathS3({ awsBucket: bucket }));
 
-        app.get('/', stormpath.loginRequired, (req, res) => {
+        app.get("/", stormpath.loginRequired, (req, res) => {
           req.user.uploadFile(tmpFile.name, err => {
             assert(!err);
             res.send();
@@ -293,16 +293,16 @@ describe('express-stormpath-s3', () => {
 
           agent = request.agent(app);
 
-          agent.post('/login')
-            .type('form')
+          agent.post("/login")
+            .type("form")
             .send({ login: acc.username })
-            .send({ password: '0HIthere!0' })
+            .send({ password: "0HIthere!0" })
             .expect(302, (err, res) => {
               if (err) {
                 return done(err);
               }
 
-              agent.get('/').expect(200, (err, res) => {
+              agent.get("/").expect(200, (err, res) => {
                 if (err) {
                   return done(err);
                 }

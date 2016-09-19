@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
-const async = require('async');
-const uuid = require('uuid4');
+const AWS = require("aws-sdk");
+const async = require("async");
+const uuid = require("uuid4");
 
 /**
  * Generate a globally unique random name for testing purposes.
@@ -10,7 +10,7 @@ const uuid = require('uuid4');
  * @private
  */
 function generateRandomName() {
-  return 'express-stormpath-s3-' + uuid();
+  return "express-stormpath-s3-" + uuid();
 }
 
 /**
@@ -173,8 +173,8 @@ function createStormpathAccount(application, callback) {
   application.createAccount({
     givenName: name,
     surname: name,
-    email: name + '@test.com',
-    password: '0HIthere!0'
+    email: name + "@test.com",
+    password: "0HIthere!0"
   }, (err, account) => {
     if (err) {
       return callback(err);
