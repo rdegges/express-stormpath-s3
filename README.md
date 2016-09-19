@@ -5,6 +5,7 @@
 [![NPM Version](https://img.shields.io/npm/v/express-stormpath-s3.svg?style=flat)](https://npmjs.org/package/express-stormpath-s3)
 [![NPM Downloads](http://img.shields.io/npm/dm/express-stormpath-s3.svg?style=flat)](https://npmjs.org/package/express-stormpath-s3)
 [![Build Status](https://img.shields.io/travis/rdegges/express-stormpath-s3.svg?style=flat)](https://travis-ci.org/rdegges/express-stormpath-s3)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/30731842c55a47b4ba7e621ef53143b7)](https://www.codacy.com/app/r/express-stormpath-s3)
 
 
 ## Installation
